@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ticket</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+    <nav th:replace="~{navbar :: navbar ('Ticket')}" ></nav>
+    
+    <div class="container" th:object="${ticket}">
+        <div class="card border-dark mb-3 mt-5 text-center" style="max-width: 25rem;">
+            <div class="card-header fs-5" th:text="${ticket.operatore.email}"></div>
+            <div class="card-body text-dark">
+                <h5 class="card-title fs-4" th:text="*{titolo}" ></h5>
+                <p class="card-text fs-5" th:text="*{descrizione}"></p>
+            </div>
+            <div class=" card-footer fs-5" th:text="*{stato}"></div>
+        </div>
+    </div>
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
