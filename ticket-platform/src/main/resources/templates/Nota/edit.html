@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ticket</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+    <nav th:replace="~{navbar :: navbar ('Ticket')}" ></nav>
+    
+    <div class="container">
+        <form th:object="${nota}" th:action="${editMode} ? @{/nota/edit/{id}(id=${nota.id})} : @{/nota/create}" method="post">
+             <input type="hidden" th:field="*{ticket}" id="ticket">
+            <div class="mb-3 mt-4">
+                <label for="titolo" class="form-label">Titolo Nota</label>
+                <input type="text" class="form-control" id="titolo" th:field="*{titolo}" th:errorClass="is-invalid">
+                <div th:if="${#fields.hasErrors('titolo')}" class="invalid-feedback">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('titolo')}" th:text="${err}"></li>
+                    </ul>
+                </div>    
+            </div>
+            <div class="mb-3">
+                <label for="testo" class="form-label">Testo nota</label>
+                <textarea class="form-control" id="testo" rows="4" th:field="*{testo}" th:errorClass="is-invalid"></textarea>
+                <div th:if="${#fields.hasErrors('testo')}" class="invalid-feedback">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('testo')}" th:text="${err}"></li>
+                    </ul>
+                </div>                    
+            </div>
+            <div class="col-12">
+                        <button type="submit" class="btn btn-dark">crea nota</button>
+                        
+                    </div>
+        </form>
+        
+
+    </div>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -16,34 +16,37 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.ticket_platform.model.Categoria;
+import com.example.ticket_platform.model.Nota;
 import com.example.ticket_platform.model.Operatore;
 import com.example.ticket_platform.model.Ticket;
 import com.example.ticket_platform.repository.CategoriaRepository;
+import com.example.ticket_platform.repository.NotaRepository;
 import com.example.ticket_platform.repository.OperatoreRepository;
 import com.example.ticket_platform.repository.TicketRepository;
 
 import jakarta.validation.Valid;
 
 
-
-
-
-
 @Controller
 @RequestMapping("/ticket")
 public class TicketController {
-
+    
     @Autowired
     private TicketRepository repository;
     @Autowired
     private OperatoreRepository operatoreRepository;
     @Autowired
     private CategoriaRepository categoriaRepository;
+    @Autowired
+    private  NotaRepository notaRepository;
+
+
+   
 
     @GetMapping
     public String index(Model model, @RequestParam(name="keyword", required=false) String keyword) {
 
-        List<Ticket>tic = null;
+        List<Ticket>tic;
 
         if(keyword==null || keyword.isBlank()){
             tic=repository.findAll();
@@ -55,6 +58,7 @@ public class TicketController {
         return "ticket/index";
     }
 
+
      @GetMapping("/show/{id}")
     public String show(@PathVariable("id") Integer id, Model model) {
 
@@ -65,10 +69,40 @@ public class TicketController {
             model.addAttribute("ticket", optionaleT.get());
             model.addAttribute("empty", false);
             model.addAttribute("categorie", ticket.getCategorie());
+            model.addAttribute("note", ticket.getNote());
         }else{
             model.addAttribute("empty",true);
         }
         return "ticket/show";
+    }
+
+     @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Integer id, Model model) {
+
+        Optional<Ticket> optionaleT = repository.findById(id);
+        Ticket ticket = optionaleT.get();
+        
+        if(optionaleT.isPresent()){
+            model.addAttribute("ticket",ticket);
+            model.addAttribute("listOper", operatoreRepository.findAll());
+            model.addAttribute("listCat", categoriaRepository.findAll());
+          
+        }
+        return "ticket/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String update(@Valid @ModelAttribute("ticket") Ticket ticket,
+                        BindingResult bindingResult, Model model) {
+        
+        if(bindingResult.hasErrors()){
+           model.addAttribute("listOper", operatoreRepository.findAll());
+            model.addAttribute("listCat", categoriaRepository.findAll());
+             return "/ticket/edit";
+        }
+        model.addAttribute("categorie", ticket.getCategorie());
+           
+        return "redirect:/ticket";
     }
 
 
@@ -107,16 +141,29 @@ public class TicketController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Integer id) {
-        // Ticket ticket=repository.findById(id).get();
-        // for(OffertaSpeciale offertaCanc : pizza.getOfferte()){
-        //     OffertaRepository.delete(offertaCanc);
-        // }
+
+        
+        Ticket ticket=repository.findById(id).get();
+        for(Nota nota : ticket.getNote()){
+            notaRepository.delete(nota);
+        }
 
         repository.deleteById(id);
         
         
         return "redirect:/ticket";
     
+    }
+    
+    @GetMapping("{id}/nota")
+    public String note(@PathVariable("id") Integer id, Model model) {
+        Nota nota = new Nota();
+
+        nota.setTicket(repository.findById(id).get());
+        model.addAttribute("nota", nota);
+        model.addAttribute("editMode", false);
+        
+        return "/nota/edit";
     }
     
 

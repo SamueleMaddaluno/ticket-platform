@@ -16,7 +16,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="operatori")
-public class Operatore {
+public class Operatore extends User{
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

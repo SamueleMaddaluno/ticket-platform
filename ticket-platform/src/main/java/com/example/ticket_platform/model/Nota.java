@@ -9,7 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -30,9 +29,8 @@ public class Nota {
     @NotBlank(message="il testo non può essere vuoto")
     private String testo;
 
-    @NotNull
-    @FutureOrPresent(message="la data non può essere antecedentead oggi")
-    private LocalDate dataCreazione;
+    
+    private LocalDate dataCreazione = LocalDate.now();
 
     @ManyToOne
     @JoinColumn(name="ticket_id")
@@ -102,6 +100,7 @@ public class Nota {
         this.operatore = operatore;
     }
 
+    public Nota(){}
     
     
 }

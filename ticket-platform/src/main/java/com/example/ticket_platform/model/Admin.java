@@ -16,7 +16,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="admins")
-public class Admin {
+public class Admin extends User{
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
