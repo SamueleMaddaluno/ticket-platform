@@ -34,7 +34,7 @@ public class Ticket {
     @NotBlank(message="la descrizione è obbligatoria")
     private String descrizione;
 
-    private enum Stato{
+    public  enum Stato{
         da_fare,
         in_corso,
        completato

@@ -15,7 +15,13 @@ public class IndexController {
      @GetMapping("/")
     public String login(@AuthenticationPrincipal DatabaseUserDetails userDetails) {
 
+      if(userDetails == null){
+          return "redirect:/login";
+       }
+
        String ruolo= userDetails.getAuthorities().iterator().next().getAuthority();
+
+  
 
        if (ruolo.equals("ADMIN")){
         return "redirect:/ticket";

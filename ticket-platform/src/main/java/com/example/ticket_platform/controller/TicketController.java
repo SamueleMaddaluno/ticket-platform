@@ -54,6 +54,8 @@ public class TicketController {
              tic=repository.findByTitoloContainingIgnoreCase(keyword);
         }
             model.addAttribute("ticket",tic);
+
+           
           
         return "ticket/index";
     }
@@ -100,7 +102,7 @@ public class TicketController {
             model.addAttribute("listCat", categoriaRepository.findAll());
              return "/ticket/edit";
         }
-        model.addAttribute("categorie", ticket.getCategorie());
+       repository.save(ticket);
            
         return "redirect:/ticket";
     }
@@ -127,13 +129,13 @@ public class TicketController {
                         BindingResult bindingResult, RedirectAttributes redirectAttributes,
                         Model model ) {
         List<Operatore> operatori= operatoreRepository.findByDisponibileTrue();
-        List<Categoria> categorie = categoriaRepository.findAll();
+
         if(bindingResult.hasErrors()){
             model.addAttribute("operatori", operatori);
-            model.addAttribute("categorie", categorie);
+            model.addAttribute("categorie",categoriaRepository.findAll());
             return "ticket/create";
         }
-    
+        
         redirectAttributes.addFlashAttribute("successMessage", "TICKET CREATO CORRETTAMENTE");
         repository.save(formTicket);
         return "redirect:/ticket";

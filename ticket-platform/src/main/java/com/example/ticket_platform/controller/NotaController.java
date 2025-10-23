@@ -37,20 +37,13 @@ public class NotaController {
     @Autowired
     private OperatoreRepository operatoreRepository;
 
-//     @GetMapping("/create")
-//     public String createForm(Model model) {
-//         model.addAttribute("nota", new Nota());
-//         model.addAttribute("editMode", false); // puoi usarlo nel template per distinguere create/edit
-//         return "/nota/edit"; // lo stesso template che usi per edit
-// }
-
     @PostMapping("/create")
     public String create(@Valid @ModelAttribute("nota") Nota nota, 
                         BindingResult bindingResult,
                         @AuthenticationPrincipal DatabaseUserDetails userDetails) {
         
         if(bindingResult.hasErrors()){
-            return "offerte/create";
+            return "nota/edit";
         }
 
         String ruolo= userDetails.getAuthorities().iterator().next().getAuthority();
@@ -77,11 +70,20 @@ public class NotaController {
 
     @PostMapping("/edit/{id}")
     public String update(@Valid @ModelAttribute("nota") Nota nota,
-                        BindingResult bindingResult, Model model) {
+                        BindingResult bindingResult, Model model,
+                        @AuthenticationPrincipal DatabaseUserDetails userDetails) {
         
         if(bindingResult.hasErrors()){
              model.addAttribute("editMode", true);
              return "/nota/edit";
+        }
+          String ruolo= userDetails.getAuthorities().iterator().next().getAuthority();
+        if(ruolo.equals("ADMIN")){
+            Admin admin = adminRepository.findByEmail(userDetails.getUsername()).get();
+            nota.setAdmin(admin);
+        }else if(ruolo.equals("OPERATORE")){
+            Operatore operatore=operatoreRepository.findByEmail(userDetails.getUsername()).get();
+            nota.setOperatore(operatore);
         }
         repository.save(nota);
         return "redirect:/ticket/show/"+nota.getTicket().getId();
