@@ -21,8 +21,6 @@ public class IndexController {
 
        String ruolo= userDetails.getAuthorities().iterator().next().getAuthority();
 
-  
-
        if (ruolo.equals("ADMIN")){
         return "redirect:/ticket";
        }

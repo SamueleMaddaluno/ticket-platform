@@ -2,6 +2,8 @@ package com.example.ticket_platform.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,6 +36,7 @@ public class Nota {
 
     @ManyToOne
     @JoinColumn(name="ticket_id")
+    @JsonBackReference
     private Ticket ticket;
 
     @ManyToOne

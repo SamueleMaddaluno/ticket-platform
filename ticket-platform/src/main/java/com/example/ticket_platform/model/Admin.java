@@ -2,6 +2,8 @@ package com.example.ticket_platform.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,6 +37,7 @@ public class Admin extends User{
     private List<Ruolo> ruoli;
 
      @OneToMany(mappedBy="admin")
+    @JsonBackReference
     private List<Nota> noteA;
 
      public Integer getId() {

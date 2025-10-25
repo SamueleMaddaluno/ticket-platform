@@ -2,6 +2,8 @@ package com.example.ticket_platform.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,9 +37,11 @@ public class Operatore extends User{
     private Boolean disponibile;
 
     @OneToMany(mappedBy="operatore")
+    @JsonBackReference
     private List<Nota> noteO;
 
     @OneToMany(mappedBy="operatore")
+    @JsonBackReference
     private List<Ticket> ticketsOp;
 
     @ManyToMany(fetch=FetchType.EAGER)
