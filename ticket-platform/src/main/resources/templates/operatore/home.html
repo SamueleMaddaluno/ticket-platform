@@ -8,13 +8,14 @@
 </head>
 <body>
     <nav th:replace="~{navbar :: navbar ('Home')}" ></nav>
-    <div>
-        
-    </div>
     <div class="container mt-4">
-        <div th:if="${messaggio}" class="alert alert-warning mt-2">
-            <span th:text="${messaggio}"></span>
-        </div>
+      <!-- messaggio avvertenza per mancato cambio disponibilità -->
+        <th:block th:if="${alertMessage != null}">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:text="${alertMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </th:block>       
       <!-- tasto per vcambiare disponibilità -->
        <div>
             <form th:action="@{/operatore/disponibile}" method="post">
@@ -35,6 +36,7 @@
                     <tr>
                         <th class="text-center">Titolo ticket</th>
                         <th class="text-center">Stato ticket</th>
+
                         <!-- per visualizzazione dettaglio -->
                         <th class="text-center">Dettaglio</th>
                        

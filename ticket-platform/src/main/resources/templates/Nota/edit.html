@@ -31,7 +31,9 @@
                 </div>                    
             </div>
             <div class="col-12">
-                        <button type="submit" class="btn btn-dark">crea nota</button>
+                        <button type="submit" class="btn btn-dark" 
+                                th:text="${editMode} ? 'Modifica nota': 'Crea nota'">
+                        </button>
                         
                     </div>
         </form>

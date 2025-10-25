@@ -48,9 +48,6 @@
                             </div>
                             <ul class="list-group list-group-flush bg-dark text-light">
                                 <li class="list-group-item"th:text="${item.operatore != null ? item.operatore.email : (item.admin != null ? item.admin.email : 'N/D')}"></li>
-
-                                <!-- <li class="list-group-item" th:if="${item.operatore != null}" th:text="${item.operatore.email}"></li>
-                                <li class="list-group-item" th:unless="${item.operatore == null and item.admin != null}"  th:text="${item.admin.email}"></li> -->
                                 <li class="list-group-item" th:text="${item.dataCreazione}"></li>
                                 <li class="list-group-item bg-dark">
                                     <div class="d-flex justify-content-between">
